@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        width: 80%;
+        margin: 100px auto;
+    }
+
+    .menu_up>ul {
+        background-color: rgb(219, 218, 218, 0.5);
+        color: #666666;
+        list-style: none;
+        user-select: none;
+
+    }
+
+    .menu_up li {
+        padding: 10px 20px;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+        transition: all 0.1s ease;
+    }
+
+    .items {
+        display: none;
+        user-select: none;
+    }
+
+    .active {
+        background-color: rgb(237, 87, 87);
+        color: aliceblue;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="menu_up">
+            <ul style="padding:0;">
+                <li class="active">商品介绍</li>
+                <li>规格与包装</li>
+                <li>售后保障</li>
+                <li>商品评价（50000）</li>
+                <li>手机社区</li>
+            </ul>
+        </div>
+        <div class="menu_down">
+            <div class="items" style="display: block;">商品介绍模块内容</div>
+            <div class="items">规格与包装模块内容</div>
+            <div class="items">售后保障模块内容</div>
+            <div class="items">商品评价模块内容</div>
+            <div class="items">手机社区模块内容</div>
+        </div>
+    </div>
+    <script>
+        let buttons = document.querySelectorAll('.menu_up li');
+        let contents = document.querySelectorAll('.items');
+        //给每个内容加上新标签
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].setAttribute('index', i)
+        }
+        // 颜色切换
+        for (let button of buttons) {
+            button.onclick = function () {
+                for (let i of buttons) {
+                    i.classList.remove('active')
+                }
+                this.classList.add('active');
+                // 内容切换
+                for (let content of contents) {
+                    content.style.display = 'none'
+                }
+                contents[this.getAttribute('index')].style.display = 'block'
+            }
+        }
+
+    </script>
+</body>
+
+</html>

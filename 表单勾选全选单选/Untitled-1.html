@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        table {
+            margin: 100px auto;
+            border-collapse: collapse;
+        }
+
+        thead {
+            text-align: center;
+            color: aliceblue;
+            background-color: rgba(93, 179, 207, 0.964);
+            border: 1px solid white;
+        }
+
+        thead>tr>td {
+            border-right: 1px solid white;
+        }
+
+        tbody {
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        tbody>tr>td {
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead style="font-size:bold;">
+            <tr>
+                <td style="padding: 3px 5px;"><input type="checkbox"></td>
+                <td style="padding:3px 20px">商品</td>
+                <td style="padding:3px 10px">价钱</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>iPhone8</td>
+                <td>8000</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>iPad Pro</td>
+                <td>5000</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>iPad Air</td>
+                <td>2000</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>Apple Watch</td>
+                <td>2000</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        let trs = document.querySelectorAll('tbody>tr');
+        // 鼠标经过tr变色
+        trs.forEach((item) => {
+            item.onmouseover = function () {
+                trs.forEach((element) => {
+                    element.style.backgroundColor = '';
+                })
+                this.style.backgroundColor = '#ccc'
+            }
+            item.onmouseout = function () {
+                trs.forEach((item) => {
+                    item.style.backgroundColor = ''
+                })
+            }
+        })
+        // 勾选框判断
+        let checkAll = document.querySelector('thead input');
+        let checks = document.querySelectorAll('tbody input');
+
+        //大勾选后全勾选，大勾选取消全取消
+        checkAll.onclick = function () {
+            checks.forEach((item) => {
+                item.checked = this.checked;
+            });
+            change();
+        }
+        //大勾选——全勾选——取消一个，大勾选取消
+        for (let check of checks) {
+            check.onclick = function () {
+                if (this.checked == false) {
+                    checkAll.checked = false;
+                }
+                change();
+            }
+        }
+        // 小勾全选，大勾打上勾
+        function change() {
+            let moment = Array.from(checks).filter((item) => item.checked === true);
+            if (moment.length === checks.length) {
+                checkAll.checked = true
+            } else {
+                checkAll.checked = false;
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

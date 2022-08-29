@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .box{
+            width: 260px;
+            margin: 100px auto;
+            position: relative;
+        }
+        .input{
+            width: 200px;
+            height: 100px;
+            outline: none;
+            border: 1px solid pink;
+        }
+        .submit{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        ul{
+            padding: 0;
+            margin: 0;
+            display: none;
+        }
+        ul>li{
+            margin: 20px 0;
+            background-color: pink;
+            color: black;
+            padding: 5px;
+        }
+        ul>li>a{
+            color: black;
+            text-decoration: none;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <textarea name="" id="" cols="30" rows="10" class="input"></textarea>
+        <button class="sumbit">发布</button>
+        <ul>
+        </ul>
+    </div>
+
+    <script>
+        //创建评论
+        let ul = document.querySelector('ul'),
+        button = document.querySelector('button'),
+        textarea = document.querySelector('textarea');
+        button.onclick = function(){
+            if(!textarea.value){
+                alert('请输入评论');
+                return false;
+            }
+            let li = document.createElement('li');
+            li.innerHTML = textarea.value + "<a href='javascript:;'>删除</a>";
+            console.log(textarea.value);
+            ul.insertBefore(li,ul.children[0]);
+            textarea.value = '';
+            ul.style.display = 'block';
+        //删除评论
+            let as = document.querySelectorAll('a');
+            for(let a of as){
+                    a.onclick = function(){
+                    ul.removeChild(this.parentNode);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>京东登录</title>
+    <link rel="stylesheet" href="./font_xvjowgkc5ml/iconfont.css">
+
+    <style>
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .box {
+            margin-top: 200px;
+            width: 360px;
+            height: 30px;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+        }
+
+        .password {
+            box-sizing: border-box;
+            width: 330px;
+            height: 30px;
+            outline: none;
+            border: none;
+        }
+
+        .iconfont {
+            position: absolute;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            line-height: 30px;
+            user-select: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="box">
+        <input type="password" class="password" id="psw">
+        <label class="iconfont" id="eye_close">&#xe60c</label>
+
+    </div>
+
+    <script>
+        let psw = document.getElementById('psw'),
+            eye_close = document.getElementById('eye_close');
+        let flag = 0;
+        eye_close.onclick = function () {
+            if (flag == 0) {
+                eye_close.innerHTML = '&#xe63a';
+                psw.type = 'text';
+                flag++;
+            } else {
+                eye_close.innerHTML = '&#xe60c';
+                psw.type = 'password';
+                flag = 0;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

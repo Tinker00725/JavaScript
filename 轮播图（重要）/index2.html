@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #ccc;
+            position: relative;
+            margin: 100px auto;
+            overflow: hidden;
+        }
+
+        .box a {
+            width: 30px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            background-color: #ccc;
+            font-size: larger;
+        }
+
+        #left {
+            position: absolute;
+            left: 0;
+            opacity: 0.5;
+            top: 125px;
+            z-index: 1;
+        }
+
+        #right {
+            position: absolute;
+            right: 0;
+            top: 125px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .pic_box {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2700px;
+        }
+
+        .pic_box img {
+            width: 500px;
+            height: 300px;
+            float: left;
+        }
+
+        .tiny_poibt_box {
+            margin: 0;
+            list-style: none;
+            width: 120px;
+            height: 16px;
+            border-radius: 20px;
+            background-color: rgba(219, 215, 215, 0.5);
+            padding: 0;
+            position: absolute;
+            bottom: 0;
+            margin-bottom: 5px;
+            left: 50%;
+            transform: translate(-50%);
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .tiny_poibt_box li {
+            width: 0;
+            height: 0;
+            border: 5px solid white;
+            border-radius: 50%;
+            margin: 0 5px;
+            float: left;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        li.current {
+            border-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <!-- 左右箭头 -->
+        <a href="javascript:;" id="left"> < </a>
+                <a href="javascript:;" id="right">></a>
+                <!-- 小点点 -->
+                <ul class="tiny_poibt_box"></ul>
+                <!-- 多个图片 -->
+                <ul class="pic_box">
+                    <li><a href="javascript:;"><img src="../images/淘宝1.jpg" alt=""></a></li>
+                    <li><a href="javascript:;"><img src="../images/淘宝2.png" alt=""></a></li>
+                    <li><a href="javascript:;"><img src="../images/淘宝3.png" alt=""></a></li>
+                    <li><a href="javascript:;"><img src="../images/淘宝4.jpg" alt=""></a></li>
+                </ul>
+    </div>
+
+    <script src="./slowdownanimate.js"></script>
+    <script>
+        let box = selector('.box');
+        function selector(name) {
+            return document.querySelector(name)
+        }
+        let tiny_poibt_box = selector('.tiny_poibt_box');
+        let ul = selector('.pic_box');
+        let R_button = selector('#right'),
+            L_button = R_button.previousElementSibling;
+        let images = document.querySelectorAll('img');
+        let imgWidth = images[0].offsetWidth;
+
+        //动态定义圆点数
+        let pointsNum = ul.children.length;
+        for (let i = 0; i < pointsNum; i++) {
+            let li = document.createElement('li');
+            tiny_poibt_box.appendChild(li);
+        }
+        tiny_poibt_box.children[0].classList.add('current');
+        let tinyPoints = document.querySelectorAll('.tiny_poibt_box>li');
+
+        //无缝切图的克隆
+        let cloneImg = ul.children[0].cloneNode(true);
+        ul.appendChild(cloneImg);
+
+        //右键切换
+        let count = 0;
+        R_button.addEventListener('click', function () {
+            count--;
+            if (count == -5) {
+                ul.style.left = 0 + 'px';
+                count = -1;
+            }
+            changeColor(count);
+            animate(ul, count * imgWidth)
+        })
+
+        //左键切换
+        L_button.addEventListener('click', function () {
+            count++;
+            if (count == 1) {
+                ul.style.left = -2000 + 'px';
+                count = -3;
+            }
+            changeColor(count);
+            animate(ul, count * imgWidth)
+        })
+
+        //小圆点图片顺序绑定
+        for (let i = 0; i < tinyPoints.length; i++) {
+            tinyPoints[i].setAttribute('data-index', i)
+        }
+
+        //圆点点击变色+图片切换
+        for (let tinyPoint of tinyPoints) {
+            tinyPoint.addEventListener('click', function (e) {
+                for (let i of tinyPoints) {
+                    i.classList.remove('current');
+                }
+                tinyPoint.classList.add('current');
+                count = -tinyPoint.getAttribute('data-index');
+                let currentPointIndex = Array.from(tinyPoints).filter((item) => item.className == 'current');
+                animate(ul, -currentPointIndex[0].getAttribute('data-index') * imgWidth)
+            })
+        }
+        //点击按钮小圆点变色
+        function changeColor(count) {
+            let num = count - 1;
+            for (let j of tinyPoints) {
+                j.classList.remove('current')
+            }
+            num = (count == -4) ? 0 : count;
+            tinyPoints[-num].classList.add('current');
+        }
+
+        let timer = setInterval(() => {
+            R_button.click();
+        }, 2000);
+        box.addEventListener('mouseover', () => {
+            clearInterval(timer)
+        })
+        box.addEventListener('mouseout', () => {
+            timer = setInterval(() => {
+                R_button.click()
+            }, 2000)
+        })
+    </script>
+</body>
+
+</html>

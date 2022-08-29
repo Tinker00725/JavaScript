@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            line-height: 50px;
+            text-align: center;
+            font-size: 18px;
+            display: block;
+        }
+
+        body {
+            height: 50vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            width: 500px;
+            height: 400px;
+            border: 1px solid #ccc;
+            position: relative;
+            overflow: hidden;
+            justify-content: center;
+        }
+
+        .left_btn {
+            height: 50px;
+            width: 30px;
+            background-color: rgb(197, 194, 194, 0.5);
+            position: absolute;
+            left: 0;
+            z-index: 1;
+        }
+
+        .right_btn {
+            height: 50px;
+            width: 30px;
+            background-color: rgb(197, 194, 194, 0.5);
+            position: absolute;
+            right: 0;
+            z-index: 1;
+        }
+
+        .pic_box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2000px;
+        }
+
+        .pic_box li {
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .pic_box li div {
+            width: 500px;
+            height: 400px;
+        }
+
+        .points {
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            bottom: 10px;
+            width: 120px;
+            z-index: 2;
+            background-color: rgb(206, 203, 203, 0.5);
+            border-radius: 20px;
+            padding: 5px;
+        }
+
+        .points li {
+            box-sizing: border-box;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .active{
+            background-color: orange !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="left_btn"><a href="javascript:;">
+                < </a>
+        </div>
+        <div class="right_btn"><a href="javascript:;">></a></div>
+        <ul class="points"></ul>
+        <ul class="pic_box">
+            <li>
+                <div style="background-color: pink;"></div>
+            </li>
+            <li>
+                <div style="background-color: palevioletred;"></div>
+            </li>
+            <li>
+                <div style="background-color: paleturquoise;"></div>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <!-- <script src="../slowdownanimate.js"></script> -->
+    <script>
+        let pic_box = document.querySelector('.pic_box');
+        let points = document.querySelector('.points');
+        let l_btn = document.querySelector('.left_btn'),
+            r_btn = l_btn.nextElementSibling;
+
+        for (let i = 0; i < pic_box.children.length; i++) {
+            let li = document.createElement('li');
+            li.setAttribute('data-index', i)
+            points.appendChild(li);
+        }
+        let picwidth = pic_box.children[0].offsetWidth;
+        points.children[0].classList.add('active');
+        
+        //无限轮播准备
+        let clonePic = pic_box.children[0].cloneNode(true);//填上true就是深拷贝
+        pic_box.appendChild(clonePic);
+
+        // 右侧按钮变换图片
+        let count = 0;
+        r_btn.addEventListener('click', function () {
+            count++;
+            if (count == 4) {
+                pic_box.style.left = 0 + "px";
+                count = 1;
+            }
+            console.log(count);
+            changeColor(count)
+            animate(pic_box,-picwidth*count);
+            pic_box.style.left = -picwidth * count + 'px';
+            
+        })
+        //左侧按钮变换图片
+        l_btn.addEventListener('click', function () {
+            count--;
+            if (count == -1) {
+                pic_box.style.left = -picwidth*pic_box.children[-1] + "px";
+                count = 2;
+            }
+            console.log(count);
+            changeColor(count);
+            animate(pic_box,-picwidth*count);
+            pic_box.style.left = -picwidth * count + 'px';
+            
+        })
+
+        //小圆点变色
+        for(let i=0;i<points.children.length;i++){
+            points.children[i].addEventListener('click',function(){
+                points.querySelector('.active').classList.remove('active');
+                this.classList.add('active');
+                animate(pic_box,-this.getAttribute('data-index')*picwidth);
+            })
+        }
+        function changeColor(count){
+            let num = count;
+            if(num == 3){
+                num = 0;
+            }
+            points.querySelector('.active').classList.remove('active');
+            points.children[num].classList.add('active');
+        }
+
+        //动画函数
+        function animate(obj,end){
+            obj.timer = setInterval(() => {
+                step = (end - obj.offsetLeft >= 0)?Math.ceil((end-obj.offsetLeft)/10):Math.floor((end-obj.offsetLeft)/10);
+                if(obj.offsetLeft == end){
+                    clearInterval(obj.timer);
+                }else{
+                    obj.style.left = obj.offsetLeft + step +'px';
+                }
+            }, 15);
+        }
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../缓慢动画详例/slowanimate.js"></script>
+    <style>
+        .box{
+            position: relative;
+            width: 500px;
+            height: 300px;
+            margin: 100px auto;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+        .L_button{
+            display: none;
+            background-color: #ccc;
+            opacity: 0.5;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 125px;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            line-height: 50px;
+            font-size: 24px;
+            z-index: 1;
+        }
+        .R_button{
+            display: none;
+            background-color: #ccc;
+            opacity: 0.5;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: 0;
+            top: 125px;
+            text-align: center;
+            text-decoration: none;
+            line-height: 50px;
+            color: black;  
+            font-size: 24px;
+            z-index: 1;
+        }
+        .tiny_point{
+            text-align: center;
+            list-style: none;
+            padding: 0;
+            width: 100px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            right: 50%;
+            transform: translate(-50%);
+            user-select: none;
+            z-index: 1;
+        }
+        .tiny_point li{
+            width: 0;
+            height: 0;
+            display: inline-block;
+            border: 5px solid #ccc;
+            border-radius: 50%;
+            user-select: none;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        li.current{
+            border-color: orange;
+        }
+        .picture_box{
+            position: absolute;
+            left: 0;
+            top: 0;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 2000px;
+            height: 300px;
+        }
+        .picture_box li{
+            float: left;
+        }
+        .picture_box img{
+            width: 500px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <!-- 左右按键 -->
+        <a href="javascript:;" class="L_button"> < </a>
+        <a href="javascript:;" class="R_button"> > </a>
+        <!-- 底部小点点 -->
+        <ul class="tiny_point">
+
+        </ul>
+        <!-- 核心图片 -->
+        <ul class="picture_box">
+            <li><a href="'javascript:;'"><img src="../images/早上.jpeg" alt="picture"></a></li>
+            <li><a href="'javascript:;'"><img src="../images/下午.jpeg" alt="picture"></a></li>
+            <li><a href="'javascript:;'"><img src="../images/晚上.jpeg" alt="picture"></a></li>
+        </ul>
+
+        <script>
+            let L_button = document.querySelector('.L_button');
+            let R_button = L_button.nextElementSibling;
+            let box = document.querySelector('.box');
+            let picture_box = document.querySelector('.picture_box');
+            let tiny_point = picture_box.previousElementSibling;
+            let calculate = 0;
+            //自动播放
+            let timer = setInterval(()=>R_button.click(),2000);
+
+            box.addEventListener('mouseover',function(){
+                L_button.style.display = 'block';
+                R_button.style.display = 'block';
+                clearInterval(timer);
+                timer = null;
+            })
+            box.addEventListener('mouseout',function(){
+                L_button.style.display = 'none';
+                R_button.style.display = 'none'; 
+                timer = setInterval(()=>R_button.click(),2000);
+                
+            })
+            //下方圆点数量动态获取
+            let counts = picture_box.children.length;
+            for(let i=0;i<counts;i++){
+                let li = document.createElement('li');
+                //添加自定义属性
+                li.setAttribute('data-index',i)
+                tiny_point.appendChild(li);
+            }
+            tiny_point.firstElementChild.classList.add('current');
+            let li_points = document.querySelectorAll('.tiny_point>li');
+            //下方小圆圈点击排他
+            for(let li_point of li_points){
+                li_point.addEventListener('click',function(){
+                    for(let i of li_points){
+                        i.classList.remove('current');
+                    }
+                    this.classList.add('current');
+                    calculate = -this.getAttribute('data-index');
+                    console.log(calculate);
+                    if(calculate === -3) {
+                        picture_box.style.left = 0+'px';
+                    }else{
+                    animate(picture_box,-this.getAttribute('data-index')*500)
+                    }
+                })
+            }
+            //克隆第一张图片放到最后做无缝滚动
+             let clone_pic1 = document.createElement('li');
+             clone_pic1.innerHTML = picture_box.children[0].innerHTML;
+             picture_box.appendChild(clone_pic1);
+            //左右按钮切换图片
+            let flag = true;
+            L_button.addEventListener('click',function(){
+                if(flag){
+                    flag = false;
+                    calculate++;
+                if(calculate == 1){
+                    picture_box.style.left = -1500+'px';
+                    calculate = -2;
+                }
+                console.log(calculate);
+                changeColor(calculate);
+                animate(picture_box,calculate*500,function(){
+                    flag = true;
+                });
+                }
+            });
+            R_button.addEventListener('click',function(){
+                if(flag){
+                    flag = false;
+                    calculate--;
+                if(calculate === -4) {
+                    picture_box.style.left = 0+'px';
+                    calculate = -1;
+                }
+                console.log(calculate)
+                changeColor(calculate);
+                animate(picture_box,calculate*500,()=>flag=true)
+                }
+            });
+            //小圆点索引跟calculate的关系
+            //(0--0)  (1->-1)   (2->-2 or -3)
+            function changeColor(calculate){
+                let index = -1*calculate;
+                for(let li_point of li_points){
+                    li_point.classList.remove('current');
+                }
+                if(index == 3) index = 0;
+                tiny_point.children[index].classList.add('current');
+            }
+
+        </script>
+    </div>
+</body>
+</html>

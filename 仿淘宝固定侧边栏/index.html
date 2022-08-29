@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            background-color:azure;
+            width: 80%;
+            height: 500px;
+            margin: 5px auto;
+        }
+        .banner{
+            background-color: antiquewhite;
+        }
+        .body{
+            background-color: pink;
+        }
+        .side_menu{
+            background-color: antiquewhite;
+            width: 50px;
+            height: 150px;
+            position: absolute;
+            top: 550px;
+            left: 1347px;
+        }
+        .return_top{
+            display: none;
+            box-sizing: border-box;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            text-align: center;
+            position: absolute;
+            bottom: -50px;
+            margin: 0;
+            padding: 5px 0;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="title"></div>
+    <div class="banner"></div>
+    <div class="body" style="height: 1000px;"></div>
+    <div class="side_menu">
+        <a class="return_top" href="#">回到<br>顶部</a>
+    </div>
+    <script>
+        let side_menu = document.querySelector('.side_menu'),
+        return_top = document.querySelector('.return_top');
+        let banner = document.querySelector('.banner');
+        let pageBody = document.querySelector('.body')
+        let bannerTop = banner.offsetTop;
+        let slide_blank_distance = side_menu.offsetTop - bannerTop;
+        document.addEventListener('scroll',function(){
+            if(window.pageYOffset >= bannerTop){
+                side_menu.style.position = 'fixed';
+                side_menu.style.top = slide_blank_distance + 'px';
+            }else{
+                side_menu.style.position = 'absolute';
+                side_menu.style.top = '550px'
+            }
+            //“回到顶部”按钮判断
+            if(window.pageYOffset >= pageBody.offsetTop){
+                return_top.style.display = 'block';
+            }else{
+                return_top.style.display = 'none';
+            }
+        })
+    </script>
+</body>
+</html>

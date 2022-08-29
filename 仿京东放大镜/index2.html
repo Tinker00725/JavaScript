@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .preview_pic_box {
+            padding: 0;
+            position: relative;
+            width: 256px;
+            height: 340px;
+            border: 1px solid #ccc;
+            margin-top: 100px;
+            margin-left: 100px;
+        }
+
+        .preview_pic_box>img {
+            width: 256px;
+            height: 340px;
+        }
+
+        .large_picture_box {
+            display: none;
+            border: 1px solid #ccc;
+            position: absolute;
+            top: 100px;
+            left: 376px;
+            width: 384px;
+            height: 510px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .large_picture_box>img {
+            width: 640px;
+            height: 853px;
+            position: absolute;
+        }
+
+        .mask {
+            display: none;
+            background-color: rgb(185, 180, 180);
+            opacity: 0.8;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: move;
+        }
+
+        .funny {
+            position: absolute;
+            top: 80px;
+            left: 400px;
+            font-size: 20px;
+            font-weight: bold;
+            color: gray;
+        }
+
+        .aaa {
+            width: 811.2px;
+            height: 342px;
+        }
+
+        .bbb {
+            width: 209px;
+            height: 57.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="preview_pic_box">
+        <img src="../images/小猪p琦.jpg" alt="picutre">
+        <div class="mask"></div>
+    </div>
+    <div class="large_picture_box">
+        <img src="../images/小猪p琦.jpg" alt="picture">
+    </div>
+    <div class="funny">
+        <p>李斯p琦李斯pp琦李斯p蛋小居居脑婆小朋友野猪冲撞大猪起跳放pp王可爱鬼撒币琦哇咔咔</p>
+        <img src="../images/假京东.png" alt="haha" class="aaa">
+        <img src="../images/加入购物车.png" alt="addcart" class="bbb">
+    </div>
+    <script>
+        let mask = document.querySelector('.mask');
+        let preview_pic_box = document.querySelector('.preview_pic_box');
+        let large_picture_box = document.querySelector('.large_picture_box');
+        let big_picture = large_picture_box.children[0];
+        preview_pic_box.addEventListener('mouseover', () => {
+            mask.style.display = 'block';
+            large_picture_box.style.display = 'block';
+        })
+        preview_pic_box.addEventListener('mouseout', () => {
+            mask.style.display = 'none';
+            large_picture_box.style.display = 'none';
+        })
+        preview_pic_box.addEventListener('mousemove', function (e) {
+            let x_in_box = e.pageX - preview_pic_box.offsetLeft;
+            let y_in_box = e.pageY - preview_pic_box.offsetTop;
+            let maskX = x_in_box - mask.offsetWidth / 2;
+            let maskY = y_in_box - mask.offsetHeight / 2;
+            //mask最大移动X
+            let maskXMax = preview_pic_box.offsetWidth - mask.offsetWidth;
+            if (maskX <= 0) { maskX = 0 };
+            if (maskX >= maskXMax) { maskX = maskXMax };
+            //mask最大移动Y
+            let maskYMax = preview_pic_box.offsetHeight - mask.offsetHeight;
+            if (maskY <= 0) { maskY = 0 };
+            if (maskY >= maskYMax) { maskY = maskYMax };
+            mask.style.top = maskY + 'px';
+            mask.style.left = maskX + 'px';
+            //大图跟随移动
+            //大图最大移动X
+            let bigXMax = big_picture.offsetWidth - large_picture_box.offsetWidth;
+            //大图最大移动Y
+            let bigYMax = big_picture.offsetHeight = large_picture_box.offsetHeight;
+            big_picture.style.top = -maskY * bigYMax / maskYMax + 'px';
+            big_picture.style.left = -maskX * bigXMax / maskXMax + 'px';
+        })
+    </script>
+</body>
+
+</html>

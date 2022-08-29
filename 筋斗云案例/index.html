@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            padding: 5px;
+            border: 1px solid #ccc;
+            list-style: none;
+            margin: 0;
+            width: 400px;
+            height: 30px;
+            margin: 100px auto;
+            font-size: 14px;
+            position: absolute;
+            left: 400px;
+        }
+        .box li{
+            margin: 0;
+            float: left;
+            text-align: center;
+            line-height: 30px;
+            margin: 0 10px;
+        }
+        .box li a{
+            width: 56px;
+            display: block;
+            text-decoration: none;
+            color: black;
+        }
+
+        div{
+            position: absolute;
+            left: 5px;
+            width: 76px;
+            height: 30px;
+            border-radius: 20px;
+            background-color: pink;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <ul class="box">
+        <div></div>
+        <li><a href="javascript:;" class="active">首页新闻</a></li>
+        <li><a href="javascript:;">师资力量</a></li>
+        <li><a href="javascript:;">活动策划</a></li>
+        <li><a href="javascript:;">企业文化</a></li>
+        <li><a href="javascript:;">招聘信息</a></li>
+    </ul>
+    <script src="../缓慢动画详例/slowanimate.js"></script>
+    <script>
+        let lis = document.querySelectorAll('li');
+        let backg = document.querySelector('div');
+        //加上自有属性
+        for(let i=0;i<lis.length;i++){
+            lis[i].setAttribute('data-index',i)
+        }
+        //背景动态
+        let area = backg.offsetLeft;
+        for(let li of lis){
+        li.addEventListener('mouseover',function(e){
+            let self = this;
+            e.target.style.color = 'white'
+            let location = 5+backg.offsetWidth*this.getAttribute('data-index');
+            animate(backg,location);
+        })
+
+        li.addEventListener('click',function(){
+           area = 5+backg.offsetWidth*this.getAttribute('data-index');
+        })
+
+        li.addEventListener('mouseout',function(e){
+            e.target.style.color = 'black';
+            animate(backg,area)
+        })
+        }
+
+
+
+
+        
+        
+    </script>
+</body>
+</html>

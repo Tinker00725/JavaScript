@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .father{
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            margin: 200px auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="father">
+        <p></p>
+        <p></p>
+    </div>
+    <script>
+        let div = document.querySelector('.father');
+        let p1 = div.children[0];
+        let p2 = div.children[1];
+        div.addEventListener('mousemove',function(e){
+            p1.innerHTML = '鼠标在盒内X轴坐标：'+(e.pageX - this.offsetLeft);
+            p2.innerHTML = '鼠标在盒内Y轴坐标：'+(e.pageY - this.offsetTop);
+        })
+    </script>
+</body>
+</html>

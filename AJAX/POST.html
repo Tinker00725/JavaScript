@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+
+    <script>
+        let div = document.querySelector('div');
+        div.addEventListener('mouseover', function () {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://127.0.0.1:8000/server');
+            //设置请求头
+            xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            //上面用的两个参数是预定义的
+            //Content-Type ：设置请求体的类型
+            //application/x-www-form-urlencoded：参数查询字符串的固定写法
+            xhr.send('name=Tinker&age=21&a=100');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        div.innerHTML = xhr.response;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

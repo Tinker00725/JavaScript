@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .login {
+            width: 200px;
+            font-size: larger;
+            margin: 100px auto;
+            border: 1px solid;
+            text-align: center;
+            cursor: pointer;
+        }
+        .background{
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: black;
+            opacity: 0.2;
+        }
+        .login_page{
+            display: none;
+            position: absolute;
+            width: 500px;
+            height: 250px;
+            background-color: white;
+            box-shadow: 0 0 5px white;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            left: 50%;
+            top: 50%;
+            z-index: 999;
+            transform: translate(-50%,-50%);
+            cursor: move;
+        }
+        .title{
+            text-align: center;
+            clear: both;
+            font-size: 18px;
+            width: 120px;
+            margin: 5px auto;
+            user-select: none;
+        }
+        .input_box{
+            box-sizing: border-box;
+            display: block;
+            width: 460px;
+            height: 40px;
+            box-sizing: border-box;
+            font-size: 15px;
+            float: left;
+            margin: 10px 20px;
+            text-align: left;
+            line-height: 40px;
+        }
+        .input_box>input{
+            width: 80%;
+            height: 20px;
+            padding: 3px 5px;
+            float: right;
+            margin-top: 8px;
+            outline: none;
+            border: 1px solid #ccc;
+        }
+        .submit{
+            width: 240px;
+            position: absolute;
+            bottom: 0;
+            padding: 5px ;
+            margin-bottom: 55px;
+            margin-left: 125px;
+            background-color: white;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .login_page::before{
+            position: absolute;
+            content: "";
+            border: 20px solid white;
+            border-radius: 50%;
+            right: -20px;
+            top: -20px;
+        }
+        .out{
+            text-align: center;
+            line-height: 40px;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            right: -20px;
+            top: -20px;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+    <div class="login">点击登录</div>
+    <!-- 灰色背景 -->
+    <div class="background"></div>
+    <!-- 登录界面 -->
+    <div class="login_page">
+        <p class="title">登录会员</p>
+        <p class="out">×</p>
+        <div class="input_box">用户名：<input type="text" placeholder="请输入用户名" id="input"></div>
+        <div class="input_box">登陆密码: <input type="text" placeholder="请输入登录密码" id="input"></div>
+        <input type="submit" value="登录会员" class="submit" style="display: block;">
+    </div>
+    </div>
+
+
+
+    <script>
+        let locationx;
+        let locationy;
+        function $(name) {
+            return document.querySelector(name)
+        }
+        let login = $('.login'),
+        background = $('.background'),
+        login_page = $('.login_page'),
+        out = $('.out'),
+        title = $('.title');
+        login.addEventListener('click',function(){
+            background.style.display = 'block';
+            login_page.style.display = 'block';
+        })
+        out.addEventListener('click',function(){
+            background.style.display = 'none';
+            login_page.style.display = 'none';
+        })
+        login_page.addEventListener('mousedown',function(e){
+            locationx = (e.pageX-this.offsetLeft);
+            locationy = (e.pageY - this.offsetTop);
+            
+            login_page.addEventListener('mousemove',f)
+            
+            login_page.addEventListener('mouseup',function(){
+                    this.removeEventListener('mousemove',f)
+                })
+        })
+        function f(e){
+            this.style.top = (e.pageY - locationy) + "px";
+            this.style.left = (e.pageX - locationx)+ "px";
+        }
+
+    </script>
+</body>
+
+</html>

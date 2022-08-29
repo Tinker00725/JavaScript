@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .picture {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+            margin: 100px 50px;
+            position: relative;
+        }
+
+        .picture img {
+            width: 300px;
+            height: 300px;
+        }
+
+        .mask {
+            display: none;
+            width: 150px;
+            height: 150px;
+            background-color: rgb(228, 228, 10);
+            opacity: 0.5;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+        }
+
+        .bigger {
+            width: 400px;
+            height: 400px;
+            display: none;
+            position: absolute;
+            left: 380px;
+            top: 100px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .bigger img {
+            position: absolute;
+            display: none;
+            width: 700px;
+            height: 700px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="picture">
+        <img src="../images/手机.jpg" alt="picture">
+        <div class="mask"></div>
+    </div>
+    <div class="bigger">
+        <img src="../images/手机.jpg" alt="picture">
+    </div>
+    <script>
+        let mask = document.querySelector('.mask');
+        let bigger_img = document.querySelector('.bigger');
+        let picture = document.querySelector('.picture');
+        let pic = bigger_img.children[0];
+        picture.addEventListener('mouseover', function () {
+            pic.style.display = 'block';
+            mask.style.display = 'block';
+            bigger_img.style.display = 'block';
+        })
+        picture.addEventListener('mouseout', () => {
+            mask.style.display = 'none';
+            bigger_img.style.display = 'none';
+        })
+        picture.addEventListener('mousemove', (e) => {
+            let x_in_box = e.pageX - picture.offsetLeft;
+            maskX = x_in_box - mask.offsetWidth / 2;
+            if (maskX <= 0) {
+                maskX = 0;
+            }
+            if (x_in_box >= picture.offsetWidth - mask.offsetWidth / 2) {
+                maskX = picture.offsetWidth - mask.offsetWidth;
+            };
+
+            let y_in_box = e.pageY - picture.offsetTop;
+            maskY = y_in_box - mask.offsetHeight / 2;
+            if (maskY <= 0) {
+                maskY = 0;
+            }
+            if (y_in_box >= picture.offsetHeight - mask.offsetHeight / 2) {
+                maskY = picture.offsetHeight - mask.offsetHeight;
+            }
+            mask.style.left = maskX + 'px';
+            mask.style.top = maskY + 'px';
+
+            //大图随小图移动
+            pic.style.left = -maskX * (pic.offsetWidth - bigger_img.offsetWidth) / (picture.offsetWidth - mask.offsetWidth) + 'px';
+            pic.style.top = -maskY * (pic.offsetHeight - bigger_img.offsetHeight) / (picture.offsetHeight - mask.offsetHeight) + 'px';
+        })
+    </script>
+</body>
+
+</html>

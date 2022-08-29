@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        table {
+            margin: 100px auto;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: aqua;
+        }
+
+        thead>tr>td {
+            padding: 5px 30px;
+            font-weight: bold;
+        }
+
+        tbody>tr {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>name</td>
+                <td>age</td>
+                <td>id</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tinker</td>
+                <td>21</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>David</td>
+                <td>25</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Tony</td>
+                <td>19</td>
+                <td>3</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <script>
+        let trs = document.querySelectorAll('tbody>tr');
+        trs.forEach(element => {
+            element.onmouseover = function () {
+                for (let tr of trs) {
+                    tr.style.backgroundColor = 'white'
+                }
+                this.style.backgroundColor = '#ccc'
+            };
+            element.onmouseout = function () {
+                this.style.backgroundColor = 'white'
+            }
+        });
+
+    </script>
+</body>
+
+</html>

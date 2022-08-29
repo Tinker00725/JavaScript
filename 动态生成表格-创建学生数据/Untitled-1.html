@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        table{
+            width: 500px;
+            margin: 100px auto;
+            border-collapse: collapse;
+        }
+        table thead tr{
+            background-color: #ccc;
+            font-weight: bold;
+            text-align: center;
+        }
+        table thead tr td{
+            padding: 5px 20px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table tr{
+            text-align: center;
+        }
+        table tbody tr td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>姓名</td>
+                <td>科目</td>
+                <td>成绩</td>
+                <td>操作</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script>
+        let datas = [{
+            name : 'Tinker',
+            subject : 'javascript',
+            scorce : 100
+        },{
+            name : 'Tony',
+            subject : 'javascript',
+            scorce : 98
+        },{
+            name : 'David',
+            subject : 'javascript',
+            scorce : 99
+        },{
+            name : 'Mary',
+            subject : 'javascript',
+            scorce : 88
+        },{
+            name : 'saki',
+            subject : '科目三',
+            scorce : 100
+        }];
+        let tbody = document.querySelector('tbody');
+        //创建行
+        for(let i=0;i<datas.length;i++){
+        let tr = document.createElement('tr');
+        tbody.appendChild(tr);
+        //创建单元格
+        let value = Object.values(datas[i]);
+        console.log(value);
+        for(let j of value){
+        let td = document.createElement('td');
+        td.innerHTML = j;
+        tr.appendChild(td);
+        }
+        let td = document.createElement('td');
+        td.innerHTML = "<a href='javascript:;'>删除</a>"
+        tr.appendChild(td);
+
+        let as = document.querySelectorAll('a');
+        Array.from(as).forEach((a)=>{
+            a.onclick = function(){
+                tbody.removeChild(tbody.firstElementChild)
+            }
+        })
+
+        }
+    </script>
+</body>
+</html>

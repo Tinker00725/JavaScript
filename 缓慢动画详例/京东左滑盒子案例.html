@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./slowanimate.js"></script>
+    <style>
+        .slider{
+            position: absolute;
+            top: 50px;
+            left: 1353px;
+            width: 50px;
+            height: 50px;
+            background-color: purple;
+            font-size: 20px;
+            text-align: center;line-height: 50px;
+            user-select: none;
+            cursor: pointer;
+            transition: text 0.5s ease;
+            color: white;
+
+        }
+        .message{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 50px;
+            width: 200px;
+            background-color: purple;
+            z-index: -1;
+            text-align: left;
+            padding: 0 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <span>←</span>
+        <div class="message">问题反馈</div>
+    </div>
+    <script>
+        let slider = document.querySelector('.slider');
+        let message = document.querySelector('.message');
+        slider.addEventListener('mouseover',function(){
+            animate(message,-150,function(){
+                slider.children[0].innerHTML = '→';
+            });
+        })
+        slider.addEventListener('mouseout',function(){
+            animate(message,0,function(){
+                slider.children[0].innerHTML = '←'
+            });
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./练习文档—JS.js"></script>
+    <link rel="stylesheet" href="./练习文档 CSS.css">
+</head>
+
+<style>
+    #box {
+        font-size: 12px;
+        margin: 100px 50%;
+        width: 52px;
+    }
+
+    .title>p {
+        width: 50px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid orange;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .dropdown_list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: none;
+    }
+
+    .dropdown_list>li {
+        height: 20px;
+        width: 50px;
+        border: 1px solid orange;
+        border-top: none;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    .dropdown_list>li>a {
+        text-decoration: none;
+        color: black;
+        display: block;
+
+    }
+
+    .active {
+        color: orange;
+        background-color: #ccc;
+    }
+</style>
+
+<body>
+    <div id="box">
+        <div class="title">
+            <p>微博 ⬇</p>
+        </div>
+        <ul class="dropdown_list">
+            <li><a href="#">私信</a></li>
+            <li><a href="#">评论</a></li>
+            <li><a href="#">@我</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function selector(name) {
+            return document.querySelector(name)
+        }
+        let button = selector('.title>p'),
+            ul = selector('.dropdown_list'),
+            as = document.querySelectorAll('.dropdown_list>li>a');
+
+        button.onmouseover = function () {
+            this.classList.add('active');
+            ul.style.display = 'block'
+        }
+        button.onmouseout = function () {
+            this.classList.remove('active');
+            ul.style.display = 'none'
+        }
+        ul.onmouseover = function () {
+            this.style.display = 'block';
+        }
+        ul.onmouseout = function () {
+            this.style.display = 'none'
+        }
+        for (let a of as) {
+            a.onmouseover = function () {
+                this.classList.add('active');
+            }
+            a.onmouseout = function () {
+                this.classList.remove('active');
+            }
+        }
+
+    </script>
+</body>
+
+</html>
